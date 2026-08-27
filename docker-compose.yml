@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: inventario-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-inventario_db}
+      POSTGRES_USER: ${DB_USER:-inventario_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - inventario_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-inventario_user} -d ${DB_NAME:-inventario_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: inventario-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-inventario_db}
+      DB_USER: ${DB_USER:-inventario_user}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+    ports:
+      - "8080:8080"
+    networks:
+      - inventario_net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: inventario-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+    networks:
+      - inventario_net
+
+networks:
+  inventario_net:
+    driver: bridge
+
+volumes:
+  db_data:
