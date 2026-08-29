@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fondo de página: lavanda muy claro, no blanco puro ni gris genérico */
+  --color-bg-page: #F1F0FA;
+
+  /* Superficies (tarjetas, inputs) */
+  --color-surface: #FFFFFF;
+  --color-border: #E2E4EC;
+
+  /* Texto */
+  --color-text-primary: #1E2233;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+
+  /* Acento: azul marino corporativo */
+  --color-primary: #1E3A8A;
+  --color-primary-hover: #16296B;
+  --color-link: #2451C4;
+}
