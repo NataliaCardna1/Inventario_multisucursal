@@ -1,0 +1,10 @@
+package co.com.opc.inventario.repository;
+
+import co.com.opc.inventario.entity.Envio;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface EnvioRepository extends JpaRepository<Envio, Long> {
+    Optional<Envio> findByTransferenciaId(Long transferenciaId);
+}

@@ -23,6 +23,3 @@ management:
       exposure:
         include: health,info
 
-logging:
-  level:
-    org.springframework.security: DEBUG
