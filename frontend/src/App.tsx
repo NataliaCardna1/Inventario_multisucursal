@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Inventario from './pages/Inventario'
+import Productos from './pages/Productos'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           >
             <Route path="/" element={<Dashboard />} />
             <Route path="/inventario" element={<Inventario />} />
+            <Route path="/productos" element={<Productos />} />
           </Route>
         </Routes>
       </AuthProvider>
