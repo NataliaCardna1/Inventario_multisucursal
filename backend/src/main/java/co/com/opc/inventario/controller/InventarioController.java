@@ -46,4 +46,8 @@ public ResponseEntity<MovimientoInventario> registrarRetiro(@Valid @RequestBody 
     return ResponseEntity.status(HttpStatus.CREATED).body(movimiento);
 
     }
+    @GetMapping("/alertas")
+    public ResponseEntity<List<InventarioSucursal>> obtenerAlertas() {
+        return ResponseEntity.ok(inventarioService.obtenerAlertasStockBajo());
+    }
 }

@@ -22,3 +22,7 @@ export async function registrarRetiro(data: MovimientoPayload) {
   const response = await apiClient.post('/inventario/retiro', data)
   return response.data
 }
+export async function getAlertas(): Promise<InventarioItem[]> {
+  const response = await apiClient.get<InventarioItem[]>('/inventario/alertas')
+  return response.data
+}

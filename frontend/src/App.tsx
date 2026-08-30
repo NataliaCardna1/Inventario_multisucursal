@@ -9,6 +9,7 @@ import Productos from './pages/Productos'
 import Transferencias from './pages/Transferencias'
 import NuevaTransferencia from './pages/NuevaTransferencia'
 import TransferenciaDetallePage from './pages/TransferenciaDetallePage'
+import Alertas from './pages/Alertas'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/transferencias" element={<Transferencias />} />
             <Route path="/transferencias/nueva" element={<NuevaTransferencia />} />
             <Route path="/transferencias/:id" element={<TransferenciaDetallePage />} />
+            <Route path="/alertas" element={<Alertas />} />
           </Route>
         </Routes>
       </AuthProvider>

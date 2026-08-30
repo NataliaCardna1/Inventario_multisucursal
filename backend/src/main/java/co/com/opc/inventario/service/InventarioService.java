@@ -122,4 +122,7 @@ public class InventarioService {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("Usuario autenticado no encontrado en base de datos"));
     }
+    public List<InventarioSucursal> obtenerAlertasStockBajo() {
+    return inventarioRepository.findConStockBajoElMinimo();
+}
 }

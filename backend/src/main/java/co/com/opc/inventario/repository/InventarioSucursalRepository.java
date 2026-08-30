@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface InventarioSucursalRepository extends JpaRepository<InventarioSucursal, Long> {
     List<InventarioSucursal> findBySucursalId(Long sucursalId);
     Optional<InventarioSucursal> findByProductoIdAndSucursalId(Long productoId, Long sucursalId);
+    
+    @org.springframework.data.jpa.repository.Query("SELECT i FROM InventarioSucursal i WHERE i.stockActual < i.stockMinimo")
+    List<InventarioSucursal> findConStockBajoElMinimo();
 }
