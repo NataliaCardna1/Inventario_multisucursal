@@ -61,3 +61,12 @@ export interface TransferenciaDetalleItem {
   cantidadEnviada: number | null
   cantidadRecibida: number | null
 }
+
+export interface UsuarioAdmin {
+  id: number
+  nombre: string
+  email: string
+  rol: string
+  sucursal: Sucursal | null
+  activo: boolean
+}

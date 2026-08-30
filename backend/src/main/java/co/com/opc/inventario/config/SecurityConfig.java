@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/error").permitAll()
+                .requestMatchers("/usuarios/**").hasRole("ADMIN_GENERAL")
                 .anyRequest().authenticated()
 
             )
