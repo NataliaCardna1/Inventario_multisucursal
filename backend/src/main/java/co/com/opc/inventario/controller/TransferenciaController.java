@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import co.com.opc.inventario.dto.PreparacionRequest;
 import co.com.opc.inventario.dto.DespachoRequest;
 import co.com.opc.inventario.dto.RecepcionRequest;
+import co.com.opc.inventario.entity.TransferenciaDetalle;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transferencias")
@@ -40,5 +42,20 @@ public class TransferenciaController {
     public ResponseEntity<Transferencia> confirmarRecepcion(@PathVariable Long id, @Valid @RequestBody RecepcionRequest request) {
         Transferencia transferencia = transferenciaService.confirmarRecepcion(id, request);
         return ResponseEntity.ok(transferencia);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Transferencia>> listar() {
+        return ResponseEntity.ok(transferenciaService.listarTodas());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Transferencia> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(transferenciaService.obtenerPorId(id));
+    }
+
+    @GetMapping("/{id}/detalles")
+    public ResponseEntity<List<TransferenciaDetalle>> obtenerDetalles(@PathVariable Long id) {
+        return ResponseEntity.ok(transferenciaService.obtenerDetalles(id));
     }
 }

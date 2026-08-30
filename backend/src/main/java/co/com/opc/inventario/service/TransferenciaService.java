@@ -197,4 +197,16 @@ public class TransferenciaService {
 
         return transferenciaRepository.save(transferencia);
     }
+    public List<Transferencia> listarTodas() {
+    return transferenciaRepository.findAll();
+    }
+
+    public Transferencia obtenerPorId(Long id) {
+        return transferenciaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transferencia no encontrada: " + id));
+    }
+
+    public List<TransferenciaDetalle> obtenerDetalles(Long transferenciaId) {
+        return detalleRepository.findByTransferenciaId(transferenciaId);
+    }
 }
