@@ -12,6 +12,10 @@ import TransferenciaDetallePage from './pages/TransferenciaDetallePage'
 import Alertas from './pages/Alertas'
 import Administracion from './pages/Administracion'
 import Categorias from './pages/Categorias'
+import Ventas from './pages/Ventas'
+import NuevaVenta from './pages/NuevaVenta'
+import VentaDetallePage from './pages/VentaDetallePage'
+import { SucursalProvider } from './context/SucursalContext'
 
 export default function App() {
   return (
@@ -22,7 +26,9 @@ export default function App() {
           <Route
             element={
               <ProtectedRoute>
-                <Layout />
+                <SucursalProvider>
+                  <Layout />
+                </SucursalProvider>
               </ProtectedRoute>
             }
           >
@@ -35,6 +41,9 @@ export default function App() {
             <Route path="/alertas" element={<Alertas />} />
             <Route path="/administracion" element={<Administracion />} />
             <Route path="/categorias" element={<Categorias />} />
+            <Route path="/ventas" element={<Ventas />} />
+            <Route path="/ventas/nueva" element={<NuevaVenta />} />
+            <Route path="/ventas/:id" element={<VentaDetallePage />} />
           </Route>
         </Routes>
       </AuthProvider>

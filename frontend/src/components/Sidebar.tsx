@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Boxes, Package, ArrowLeftRight, Bell, Settings, Tags } from 'lucide-react'
+import { LayoutDashboard, Boxes, Package, ArrowLeftRight, Bell, Settings, Tags, Receipt } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/productos', label: 'Productos', icon: Package },
   { to: '/transferencias', label: 'Transferencias', icon: ArrowLeftRight },
   { to: '/alertas', label: 'Alertas', icon: Bell },
+  { to: '/ventas', label: 'Ventas', icon: Receipt },
 ]
 
 export default function Sidebar() {
