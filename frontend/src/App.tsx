@@ -6,6 +6,9 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Inventario from './pages/Inventario'
 import Productos from './pages/Productos'
+import Transferencias from './pages/Transferencias'
+import NuevaTransferencia from './pages/NuevaTransferencia'
+import TransferenciaDetallePage from './pages/TransferenciaDetallePage'
 
 export default function App() {
   return (
@@ -23,6 +26,9 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/inventario" element={<Inventario />} />
             <Route path="/productos" element={<Productos />} />
+            <Route path="/transferencias" element={<Transferencias />} />
+            <Route path="/transferencias/nueva" element={<NuevaTransferencia />} />
+            <Route path="/transferencias/:id" element={<TransferenciaDetallePage />} />
           </Route>
         </Routes>
       </AuthProvider>

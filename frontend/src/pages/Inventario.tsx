@@ -6,7 +6,7 @@ import type { InventarioItem, Producto } from '../types'
 import ModalMovimiento from '../components/ModalMovimiento'
 
 // TODO: reemplazar por un selector real cuando exista el CRUD de Sucursales (RF-33)
-const SUCURSAL_ACTUAL_ID = 1
+import { SUCURSAL_ACTUAL_ID } from '../constants'
 
 function estadoStock(item: InventarioItem): { label: string; className: string } {
   if (item.stockActual <= 0) {

@@ -34,3 +34,30 @@ export interface InventarioItem {
 }
 
 export type MotivoMovimiento = 'COMPRA' | 'DEVOLUCION' | 'AJUSTE' | 'VENTA' | 'MERMA' | 'TRANSFERENCIA'
+export type EstadoTransferencia = 'SOLICITADA' | 'EN_PREPARACION' | 'EN_TRANSITO' | 'RECIBIDA_COMPLETA' | 'RECIBIDA_PARCIAL'
+export type Urgencia = 'BAJA' | 'MEDIA' | 'ALTA'
+
+export interface UsuarioResumen {
+  id: number
+  nombre: string
+  email: string
+  rol: string
+}
+
+export interface Transferencia {
+  id: number
+  sucursalOrigen: Sucursal
+  sucursalDestino: Sucursal
+  usuarioSolicita: UsuarioResumen
+  estado: EstadoTransferencia
+  urgencia: Urgencia
+  fechaSolicitud: string
+}
+
+export interface TransferenciaDetalleItem {
+  id: number
+  producto: Producto
+  cantidadSolicitada: number
+  cantidadEnviada: number | null
+  cantidadRecibida: number | null
+}
