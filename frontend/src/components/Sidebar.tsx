@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Boxes, Package, ArrowLeftRight, Bell, Settings } from 'lucide-react'
+import { LayoutDashboard, Boxes, Package, ArrowLeftRight, Bell, Settings, Tags } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const navItems = [
@@ -40,6 +40,22 @@ export default function Sidebar() {
             {label}
           </NavLink>
         ))}
+
+        {rol === 'ADMIN_GENERAL' && (
+          <NavLink
+            to="/categorias"
+            className={({ isActive }) =>
+              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-primary text-white'
+                  : 'text-text-secondary hover:bg-bg-page hover:text-text-primary'
+              }`
+            }
+          >
+            <Tags className="h-4 w-4" strokeWidth={1.75} />
+            Categorías
+          </NavLink>
+        )}
 
         {rol === 'ADMIN_GENERAL' && (
           <NavLink

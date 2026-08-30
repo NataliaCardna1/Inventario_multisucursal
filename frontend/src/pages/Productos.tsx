@@ -44,10 +44,7 @@ export default function Productos() {
     <div>
       <div className="mb-5 flex items-center justify-between">
         <h1 className="text-xl font-semibold text-text-primary">Productos</h1>
-        <button
-          onClick={abrirNuevo}
-          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover"
-        >
+        <button onClick={abrirNuevo} className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover">
           <Plus className="h-4 w-4" strokeWidth={1.75} />
           Nuevo producto
         </button>
@@ -78,9 +75,7 @@ export default function Productos() {
                   <td className="px-5 py-3 text-text-secondary">{p.categoria.nombre}</td>
                   <td className="px-5 py-3 text-text-primary">${p.precioVenta.toLocaleString('es-CO')}</td>
                   <td className="px-5 py-3">
-                    <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                      p.activo ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
-                    }`}>
+                    <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${p.activo ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
                       {p.activo ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>

@@ -61,6 +61,8 @@ public class SecurityConfig {
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/usuarios/**").hasRole("ADMIN_GENERAL")
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/categorias/**").authenticated()
+                .requestMatchers("/categorias/**").hasRole("ADMIN_GENERAL")
                 .anyRequest().authenticated()
 
             )
