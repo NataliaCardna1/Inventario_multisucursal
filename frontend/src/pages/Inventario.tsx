@@ -4,9 +4,7 @@ import { getInventarioPorSucursal } from '../api/inventario'
 import { getProductos } from '../api/productos'
 import type { InventarioItem, Producto } from '../types'
 import ModalMovimiento from '../components/ModalMovimiento'
-
-// TODO: reemplazar por un selector real cuando exista el CRUD de Sucursales (RF-33)
-import { SUCURSAL_ACTUAL_ID } from '../constants'
+import { useSucursal } from '../context/SucursalContext'
 
 function estadoStock(item: InventarioItem): { label: string; className: string } {
   if (item.stockActual <= 0) {
@@ -19,6 +17,7 @@ function estadoStock(item: InventarioItem): { label: string; className: string }
 }
 
 export default function Inventario() {
+  const { sucursalActualId } = useSucursal()
   const [items, setItems] = useState<InventarioItem[]>([])
   const [productos, setProductos] = useState<Producto[]>([])
   const [cargando, setCargando] = useState(true)
@@ -26,10 +25,10 @@ export default function Inventario() {
 
   const cargarInventario = useCallback(async () => {
     setCargando(true)
-    const data = await getInventarioPorSucursal(SUCURSAL_ACTUAL_ID)
+    const data = await getInventarioPorSucursal(sucursalActualId)
     setItems(data)
     setCargando(false)
-  }, [])
+  }, [sucursalActualId])
 
   useEffect(() => {
     cargarInventario()
@@ -108,7 +107,7 @@ export default function Inventario() {
       {modalTipo && (
         <ModalMovimiento
           tipo={modalTipo}
-          sucursalId={SUCURSAL_ACTUAL_ID}
+          sucursalId={sucursalActualId}
           productos={productos}
           onClose={() => setModalTipo(null)}
           onSuccess={cargarInventario}
