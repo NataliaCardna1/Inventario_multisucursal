@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback } from 'react'
-import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
-import { getInventarioPorSucursal } from '../api/inventario'
+import { ArrowDownCircle, ArrowUpCircle, Pencil } from 'lucide-react'
 import { getProductos } from '../api/productos'
 import { getSucursales } from '../api/sucursales'
 import type { InventarioItem, Producto, Sucursal } from '../types'
 import ModalMovimiento from '../components/ModalMovimiento'
 import { useSucursal } from '../context/SucursalContext'
 import { useAuth } from '../context/AuthContext'
+import { getInventarioPorSucursal, actualizarStockMinimo } from '../api/inventario'
+
 
 function estadoStock(item: InventarioItem): { label: string; className: string } {
   if (item.stockActual <= 0) {
@@ -44,6 +45,14 @@ export default function Inventario() {
     setItems(data)
     setCargando(false)
   }, [sucursalVerId])
+
+  async function handleEditarMinimo(item: InventarioItem) {
+    const nuevo = window.prompt(`Nuevo stock mínimo para ${item.producto.nombre}:`, String(item.stockMinimo))
+    if (!nuevo) return
+    await actualizarStockMinimo(item.producto.id, sucursalVerId, Number(nuevo))
+    cargarInventario()
+}
+
 
   useEffect(() => {
     cargarInventario()
@@ -103,16 +112,17 @@ export default function Inventario() {
               <th className="px-5 py-3 font-medium">Stock actual</th>
               <th className="px-5 py-3 font-medium">Stock mínimo</th>
               <th className="px-5 py-3 font-medium">Estado</th>
+              <th className="px-5 py-3 font-medium"></th>
             </tr>
           </thead>
           <tbody>
             {cargando ? (
               <tr>
-                <td colSpan={5} className="px-5 py-6 text-center text-text-secondary">Cargando...</td>
+                <td colSpan={6} className="px-5 py-6 text-center text-text-secondary">Cargando...</td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-5 py-6 text-center text-text-secondary">
+                <td colSpan={6} className="px-5 py-6 text-center text-text-secondary">
                   Sin registros de inventario en esta sucursal todavía.
                 </td>
               </tr>
@@ -132,6 +142,13 @@ export default function Inventario() {
                       <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${estado.className}`}>
                         {estado.label}
                       </span>
+                    </td>
+                    <td className="px-5 py-3 text-right">
+                      {esSuPropiaSucursal && (
+                        <button onClick={() => handleEditarMinimo(item)} className="text-text-muted hover:text-primary">
+                          <Pencil className="h-3.5 w-3.5" strokeWidth={1.75} />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 )

@@ -102,6 +102,13 @@ public class InventarioService {
 
         return registrarMovimiento(producto, sucursal, usuario, TipoMovimiento.RETIRO, motivo, cantidad);
     }
+    public InventarioSucursal actualizarStockMinimo(Long productoId, Long sucursalId, BigDecimal stockMinimo) {
+        InventarioSucursal registro = inventarioRepository
+                .findByProductoIdAndSucursalId(productoId, sucursalId)
+                .orElseThrow(() -> new IllegalArgumentException("No existe inventario para ese producto en esa sucursal"));
+        registro.setStockMinimo(stockMinimo);
+        return inventarioRepository.save(registro);
+    }
 
     private MovimientoInventario registrarMovimiento(
             Producto producto, Sucursal sucursal, Usuario usuario,

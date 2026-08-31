@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import co.com.opc.inventario.entity.MovimientoInventario;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -49,5 +50,11 @@ public ResponseEntity<MovimientoInventario> registrarRetiro(@Valid @RequestBody 
     @GetMapping("/alertas")
     public ResponseEntity<List<InventarioSucursal>> obtenerAlertas() {
         return ResponseEntity.ok(inventarioService.obtenerAlertasStockBajo());
+    }
+    @PutMapping("/stock-minimo")
+    public ResponseEntity<InventarioSucursal> actualizarStockMinimo(@jakarta.validation.Valid @RequestBody co.com.opc.inventario.dto.StockMinimoRequest request) {
+        InventarioSucursal actualizado = inventarioService.actualizarStockMinimo(
+                request.getProductoId(), request.getSucursalId(), request.getStockMinimo());
+        return ResponseEntity.ok(actualizado);
     }
 }

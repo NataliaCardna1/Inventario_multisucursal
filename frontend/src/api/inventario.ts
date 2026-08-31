@@ -26,3 +26,7 @@ export async function getAlertas(): Promise<InventarioItem[]> {
   const response = await apiClient.get<InventarioItem[]>('/inventario/alertas')
   return response.data
 }
+export async function actualizarStockMinimo(productoId: number, sucursalId: number, stockMinimo: number) {
+  const response = await apiClient.put('/inventario/stock-minimo', { productoId, sucursalId, stockMinimo })
+  return response.data
+}
