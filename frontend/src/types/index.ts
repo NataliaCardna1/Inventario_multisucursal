@@ -70,3 +70,50 @@ export interface UsuarioAdmin {
   sucursal: Sucursal | null
   activo: boolean
 }
+export interface Proveedor {
+  id: number
+  nombre: string
+  nombreContacto: string | null
+  telefono: string | null
+  email: string | null
+  tiempoEntregaPromedioDias: number | null
+}
+
+export type EstadoOrdenCompra = 'PENDIENTE' | 'RECIBIDA' | 'CANCELADA'
+
+export interface OrdenCompra {
+  id: number
+  proveedor: Proveedor
+  sucursal: Sucursal
+  usuario: UsuarioResumen
+  estado: EstadoOrdenCompra
+  condicionesPago: string | null
+  fecha: string
+}
+
+export interface OrdenCompraDetalleItem {
+  id: number
+  producto: Producto
+  cantidad: number
+  precioUnitario: number
+  descuento: number
+}
+export type EstadoVenta = 'CONFIRMADA' | 'ANULADA'
+
+export interface Venta {
+  id: number
+  sucursal: Sucursal
+  usuario: UsuarioResumen
+  total: number
+  listaPrecio: string | null
+  estado: EstadoVenta
+  fecha: string
+}
+
+export interface VentaDetalleItem {
+  id: number
+  producto: Producto
+  cantidad: number
+  precioUnitario: number
+  descuento: number
+}

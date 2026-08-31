@@ -63,6 +63,8 @@ public class SecurityConfig {
                 .requestMatchers("/usuarios/**").hasRole("ADMIN_GENERAL")
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/categorias/**").authenticated()
                 .requestMatchers("/categorias/**").hasRole("ADMIN_GENERAL")
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/proveedores/**").authenticated()
+                .requestMatchers("/proveedores/**").hasRole("ADMIN_GENERAL")
                 .anyRequest().authenticated()
 
             )

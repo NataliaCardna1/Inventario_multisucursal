@@ -1,27 +1,26 @@
-import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import { useAuth } from '../context/AuthContext'
-import { getSucursales } from '../api/sucursales'
-import { SUCURSAL_ACTUAL_ID } from '../constants'
+import { useSucursal } from '../context/SucursalContext'
 
 export default function Layout() {
   const { email, rol, logout } = useAuth()
-  const [nombreSucursal, setNombreSucursal] = useState('')
-
-  useEffect(() => {
-    getSucursales().then((sucursales) => {
-      const actual = sucursales.find((s) => s.id === SUCURSAL_ACTUAL_ID)
-      setNombreSucursal(actual?.nombre ?? '')
-    })
-  }, [])
+  const { sucursales, sucursalActualId, setSucursalActualId } = useSucursal()
 
   return (
     <div className="flex h-screen bg-bg-page">
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-16 items-center justify-between border-b border-border bg-surface px-6">
-          <span className="text-sm font-medium text-text-primary">{nombreSucursal}</span>
+          <select
+            value={sucursalActualId}
+            onChange={(e) => setSucursalActualId(Number(e.target.value))}
+            className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+          >
+            {sucursales.map((s) => (
+              <option key={s.id} value={s.id}>{s.nombre}</option>
+            ))}
+          </select>
           <div className="flex items-center gap-4">
             <span className="text-sm text-text-secondary">
               <strong className="text-text-primary">{email}</strong> · {rol}
