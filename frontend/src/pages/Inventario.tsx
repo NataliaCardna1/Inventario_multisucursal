@@ -2,9 +2,11 @@ import { useEffect, useState, useCallback } from 'react'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { getInventarioPorSucursal } from '../api/inventario'
 import { getProductos } from '../api/productos'
-import type { InventarioItem, Producto } from '../types'
+import { getSucursales } from '../api/sucursales'
+import type { InventarioItem, Producto, Sucursal } from '../types'
 import ModalMovimiento from '../components/ModalMovimiento'
 import { useSucursal } from '../context/SucursalContext'
+import { useAuth } from '../context/AuthContext'
 
 function estadoStock(item: InventarioItem): { label: string; className: string } {
   if (item.stockActual <= 0) {
@@ -17,44 +19,79 @@ function estadoStock(item: InventarioItem): { label: string; className: string }
 }
 
 export default function Inventario() {
+  const { rol } = useAuth()
   const { sucursalActualId } = useSucursal()
+  const esGerente = rol === 'GERENTE_SUCURSAL'
+
+  const [sucursales, setSucursales] = useState<Sucursal[]>([])
+  const [sucursalVerId, setSucursalVerId] = useState(sucursalActualId)
   const [items, setItems] = useState<InventarioItem[]>([])
   const [productos, setProductos] = useState<Producto[]>([])
   const [cargando, setCargando] = useState(true)
   const [modalTipo, setModalTipo] = useState<'ingreso' | 'retiro' | null>(null)
 
+  useEffect(() => {
+    setSucursalVerId(sucursalActualId)
+  }, [sucursalActualId])
+
+  useEffect(() => {
+    if (esGerente) getSucursales().then(setSucursales)
+  }, [esGerente])
+
   const cargarInventario = useCallback(async () => {
     setCargando(true)
-    const data = await getInventarioPorSucursal(sucursalActualId)
+    const data = await getInventarioPorSucursal(sucursalVerId)
     setItems(data)
     setCargando(false)
-  }, [sucursalActualId])
+  }, [sucursalVerId])
 
   useEffect(() => {
     cargarInventario()
     getProductos().then(setProductos)
   }, [cargarInventario])
 
+  const esSuPropiaSucursal = !esGerente || sucursalVerId === sucursalActualId
+
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-text-primary">Inventario</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setModalTipo('retiro')}
-            className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-page"
-          >
-            <ArrowUpCircle className="h-4 w-4" strokeWidth={1.75} />
-            Registrar retiro
-          </button>
-          <button
-            onClick={() => setModalTipo('ingreso')}
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover"
-          >
-            <ArrowDownCircle className="h-4 w-4" strokeWidth={1.75} />
-            Registrar ingreso
-          </button>
+        <div className="flex items-center gap-3">
+          <h1 className="text-xl font-semibold text-text-primary">Inventario</h1>
+          {esGerente && (
+            <select
+              value={sucursalVerId}
+              onChange={(e) => setSucursalVerId(Number(e.target.value))}
+              className="rounded-lg border border-border bg-surface px-2 py-1 text-sm text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              {sucursales.map((s) => (
+                <option key={s.id} value={s.id}>{s.nombre}</option>
+              ))}
+            </select>
+          )}
         </div>
+
+        {esSuPropiaSucursal ? (
+          <div className="flex gap-2">
+            <button
+              onClick={() => setModalTipo('retiro')}
+              className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-page"
+            >
+              <ArrowUpCircle className="h-4 w-4" strokeWidth={1.75} />
+              Registrar retiro
+            </button>
+            <button
+              onClick={() => setModalTipo('ingreso')}
+              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover"
+            >
+              <ArrowDownCircle className="h-4 w-4" strokeWidth={1.75} />
+              Registrar ingreso
+            </button>
+          </div>
+        ) : (
+          <span className="text-xs font-medium text-text-muted">
+            Solo lectura — viendo el inventario de otra sucursal
+          </span>
+        )}
       </div>
 
       <div className="overflow-hidden rounded-2xl bg-surface shadow-sm">
