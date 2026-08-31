@@ -120,3 +120,21 @@ export interface OrdenCompraDetalleItem {
   precioUnitario: number
   descuento: number
 }
+export interface ProductoRotacion {
+  nombre: string
+  cantidad: number
+}
+
+export interface VentasPorSucursal {
+  sucursal: string
+  total: number
+}
+
+export interface DashboardResumen {
+  ventasMesActual: number
+  ventasMesAnterior: number
+  productosStockBajo: number
+  transferenciasActivas: number
+  topProductos: ProductoRotacion[]
+  ventasPorSucursal: VentasPorSucursal[]
+}

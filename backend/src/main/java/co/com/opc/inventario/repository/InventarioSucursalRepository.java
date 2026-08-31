@@ -14,4 +14,7 @@ public interface InventarioSucursalRepository extends JpaRepository<InventarioSu
     List<InventarioSucursal> findConStockBajoElMinimo();
 
     List<InventarioSucursal> findByProductoId(Long productoId);
+
+    @org.springframework.data.jpa.repository.Query("SELECT i FROM InventarioSucursal i WHERE i.sucursal.id = :sucursalId AND i.stockActual < i.stockMinimo")
+    List<InventarioSucursal> findConStockBajoPorSucursal(@org.springframework.data.repository.query.Param("sucursalId") Long sucursalId);
 }
